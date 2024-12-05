@@ -779,6 +779,8 @@ with pkgs;
 
   referencesByPopularity = callPackage ../build-support/references-by-popularity { };
 
+  dockerMakeLayers = callPackage ../build-support/docker/make-layers.nix { };
+
   removeReferencesTo = callPackage ../build-support/remove-references-to {
     inherit (darwin) signingUtils;
   };
@@ -4199,10 +4201,6 @@ with pkgs;
   };
 
   mx-puppet-discord = callPackage ../servers/mx-puppet-discord { };
-
-  nagstamon = callPackage ../tools/misc/nagstamon {
-    pythonPackages = python3Packages;
-  };
 
   nanoemoji = with python3Packages; toPythonApplication nanoemoji;
 
@@ -12139,8 +12137,9 @@ with pkgs;
 
   qremotecontrol-server = libsForQt5.callPackage ../servers/misc/qremotecontrol-server { };
 
-  rabbitmq-server = callPackage ../servers/amqp/rabbitmq-server {
-    erlang = erlang_26;
+  rabbitmq-server = callPackage ../by-name/ra/rabbitmq-server/package.nix rec {
+    erlang = erlang_27;
+    elixir = pkgs.elixir.override { inherit erlang; };
   };
 
   radicale2 = callPackage ../servers/radicale/2.x.nix { };
@@ -13430,8 +13429,6 @@ with pkgs;
   bluefish = callPackage ../applications/editors/bluefish {
     gtk = gtk3;
   };
-
-  bluejeans-gui = callPackage ../applications/networking/instant-messengers/bluejeans { };
 
   breezy = with python3Packages; toPythonApplication breezy;
 
